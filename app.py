@@ -1,15 +1,15 @@
-from flask import Flask,redirect,url_for,render_template,request
+from flask import Flask,redirect,url_for,render_template,request,render_template_string
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 class Password(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
-
+db.create_all()
 f = open('templates/example.html', 'w')
   
 
@@ -40,7 +40,7 @@ def contact():
         db.session.commit()
         
     
-    return render_template('example.html')
+    return render_template_string(html_template)
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
