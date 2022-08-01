@@ -2,6 +2,7 @@ from flask import Flask,redirect,url_for,render_template,request
 from run import app
 from models import db
 import os
+import datetime
 
 
 @app.route("/testimonials",methods=['POST','GET'])
@@ -12,7 +13,7 @@ def Add_():
         name=request.form['_name']
         work=request.form['_work']
         text=request.form['_text']
-        test=Testimonials(name=name,work=work,text=text)
+        test=Testimonials(name=name,work=work,text=text,test_date=datetime.datetime.now())
         db.session.add(test)
         db.session.commit()
         return redirect("/testimonials")
