@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 
+
 <html lang="en">
 
 <head>
@@ -21,53 +22,18 @@
 </head>
 
 <body>
-    <form action="/testimonials" method="POST" enctype="multipart/form-data">
-        <!-- <div class="mt-3">
-            <input type="file" class="form-control" placeholder=" image" name="_img">
-        </div> -->
+    <form action="/admin/testimonials/update/{{test.id}}" method="POST">
         <div class="mt-3">
-
-            <input type="text" class="form-control" placeholder=" name" name="_name">
+            <input type="text" class="form-control" placeholder="{{test.name}}" name="_name">
         </div>
         <div class="mt-3">
-            <input type="text" class="form-control" placeholder="work " name="_work">
+            <input type="text" class="form-control" placeholder="{{test.work}}" name="_work">
         </div>
         <div class="mt-3">
-            <input type="text" class="form-control" placeholder=" text" name="_text">
+            <input type="text" class="form-control" placeholder="{{test.text}}" name="_text">
         </div>
-
         <button type="submit" class="btn btn-primary mt-3">Submit</button>
     </form>
-
-
-    <table class="table table-active">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Work</th>
-                <th scope="col">Text</th>
-                <th scope="col">d/u</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for test in test %}
-
-
-            <tr>
-                <td>{{test.id}}</td>
-                <td>{{test.name}}</td>
-                <td>{{test.work}}</td>
-                <td>{{test.text}}</td>
-                <td>
-                    <a href="testimonials/delete/{{test.id}}">Delete</a>
-                    <a href="testimonials/update/{{test.id}}">Update</a>
-                </td>
-            </tr>
-
-            {% endfor %}
-        </tbody>
-    </table>
 
 
     <!-- Optional JavaScript; choose one of the two! -->

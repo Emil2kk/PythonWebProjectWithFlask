@@ -2,8 +2,8 @@ from run import app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import Column, DateTime, String
-
 import datetime
+from flask_login.mixins import UserMixin
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -41,4 +41,8 @@ class NavBar(db.Model):
     navbar_item_link=db.Column(db.String(200))
     
     
-    
+class Login(UserMixin ,db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    admin_username = db.Column(db.String(50))
+    admin_password = db.Column(db.String(50))
+    log_bool = db.Column(db.Boolean)
