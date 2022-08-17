@@ -39,10 +39,19 @@ class NavBar(db.Model):
     id =db.Column(db.Integer, primary_key=True, autoincrement=True)
     navbar_item=db.Column(db.String(200))
     navbar_item_link=db.Column(db.String(200))
-    
-    
+
 class Login(UserMixin ,db.Model):
     id=db.Column(db.Integer,primary_key=True)
     admin_username = db.Column(db.String(50))
     admin_password = db.Column(db.String(50))
     log_bool = db.Column(db.Boolean)
+    
+class Portfolio(db.Model):
+    id =db.Column(db.Integer, primary_key=True, autoincrement=True)
+    port_img=db.Column(db.String(200))
+    port_name=db.Column(db.String(200))
+    port_mname=db.Column(db.String(200))
+    
+# class Portfolio_details(db.Model):
+     
+    

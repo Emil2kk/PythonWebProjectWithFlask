@@ -82,3 +82,44 @@ def testimonials_update(id):
         return redirect('admin/testimonials')
     return render_template('admin/testimonials_update.html',test=test)
 
+@app.route("/admin/Portfolio",methods=['POST','GET'])
+@login_required
+def Portfolio_Add():
+    from models import Portfolio
+    import os
+    from werkzeug.utils import secure_filename
+    port=Portfolio.query.all()
+    if request.method=="POST":
+        file = request.files['port_img']
+        filename = secure_filename(file.filename)
+        file.save(os.path.join('static/assets/uploads', filename))
+        port_name=request.form['port_name']
+        port_mname=request.form['port_mname']
+        port=Portfolio(port_img=os.path.join('static/assets/uploads', filename),port_name=port_name,port_mname=port_mname)
+        db.session.add(port)
+        db.session.commit()
+        return redirect("/admin/Portfolio")
+    return render_template('admin/portfolio.html',port=port)
+
+@app.route("/admin/Portfolio/delete/<int:id>")
+def portfolio_delete(id):
+        from models import Portfolio
+        port=Portfolio.query.filter_by(id=id).first()
+        db.session.delete(port)
+        db.session.commit()
+        return redirect('/Portfolio')
+
+   
+@app.route("/admin/Portfolio/update/<int:id>", methods=["GET", "POST"])
+def Portfolio_update(id):
+    from models import Portfolio,db        
+    port=Portfolio.query.filter_by(id=id).first()
+    if request.method=="POST":
+        port=Portfolio.query.filter_by(id=id).first()
+        port.port_name=request.form['port_name']
+        port.port_mname=request.form['port_mname']
+    
+        db.session.commit()
+        return redirect('admin/Portfolio')
+    return render_template('admin/Portfolio_update.html',port=port)
+

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <!-- https://cdnjs.com/libraries/twitter-bootstrap/5.0.0-beta1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css" />
+
+    <!-- Icons: https://getbootstrap.com/docs/5.0/extend/icons/ -->
+    <!-- https://cdnjs.com/libraries/font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+</head>
+
+<body>
+    <form action="/admin/Portfolio" method="POST" enctype="multipart/form-data">
+        <!-- <div class="mt-3">
+            <input type="file" class="form-control" placeholder=" image" name="_img">
+        </div> -->
+        <a href="/logout">LOGOUT</a>
+        <div class="mt-3">
+
+            <input type="file" class="form-control" placeholder=" Img" name="port_img">
+        </div>
+        <div class="mt-3">
+            <input type="text" class="form-control" placeholder="name " name="port_name">
+        </div>
+        <div class="mt-3">
+            <input type="text" class="form-control" placeholder=" mname" name="port_mname">
+        </div>
+    
+
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+
+
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">mname</th>
+                <th scope="col">d/u</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for port in port %}
+
+
+            <tr>
+                <td>{{port.id}}</td>
+                <td>{{port.port_name}}</td>
+                <td>{{port.port_mname}}</td>
+                <td>
+                    <a href="Portfolio/delete/{{port.id}}">Delete</a>
+                    <a href="Portfolio/update/{{port.id}}">Update</a>
+                </td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+
+    <!-- https://cdnjs.com/libraries/popper.js/2.5.4 -->
+    <!-- <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.4/umd/popper.min.js"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.min.js"
+    ></script> -->
+
+    <!-- More: https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
+</body>
+
+</html>
