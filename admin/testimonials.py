@@ -5,6 +5,7 @@ import os
 import datetime
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from run import login_manager
+from admin.forms import ServicesForm
 
 
 
@@ -123,3 +124,46 @@ def Portfolio_update(id):
         return redirect('admin/Portfolio')
     return render_template('admin/Portfolio_update.html',port=port)
 
+
+
+@app.route("/admin/Services",methods=['POST','GET'])
+def Add_services():
+        servicesForm=ServicesForm()
+        from models import db
+        from models import Services
+        ser=Services.query.all()
+        if request.method=="POST":
+
+            services=Services(
+            ser_img=servicesForm.img.data,
+            ser_namelink=servicesForm.name_link.data,
+            ser_about=servicesForm.about.data,
+            )
+            db.session.add(services)
+            db.session.commit()
+            return redirect('/admin/Services')
+        return render_template('admin/Services.html',servicesForm=servicesForm,ser=ser)
+    
+@app.route("/admin/Services/delete/<int:id>")
+def services_delete(id):
+        from models import Services
+        ser=Services.query.filter_by(id=id).first()
+        db.session.delete(ser)
+        db.session.commit()
+        return redirect('/admin/Services')
+    
+@app.route("/admin/Services/update/<int:id>", methods=["GET", "POST"])
+def update_services(id):
+    
+        
+        from models import db
+        from models import Services
+        ser=Services.query.filter_by(id=id).first()
+        servicesForm=ServicesForm()
+        if request.method=="POST":
+            ser.ser_img=servicesForm.img.data,
+            ser.ser_namelink=servicesForm.name_link.data,
+            ser.ser_about=servicesForm.about.data
+            db.session.commit()
+            return redirect('/admin/Services')
+        return render_template('admin/Services_update.html',servicesForm=servicesForm,ser=ser)
