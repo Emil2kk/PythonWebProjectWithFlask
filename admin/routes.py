@@ -67,7 +67,7 @@ def testimonials_delete(id):
         test=Testimonials.query.filter_by(id=id).first()
         db.session.delete(test)
         db.session.commit()
-        return redirect('/testimonials')
+        return redirect('admin/testimonials')
 
    
 @app.route("/admin/testimonials/update/<int:id>", methods=["GET", "POST"])
