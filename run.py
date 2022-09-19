@@ -11,9 +11,5 @@ login_manager.login_view = "admin_login"
 from admin.routes import *
 from app.routes import *
 
-
-
-
-
 if __name__ == '__main__':
     app.run(port=5000,debug=True)

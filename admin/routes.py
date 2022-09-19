@@ -154,16 +154,15 @@ def services_delete(id):
     
 @app.route("/admin/Services/update/<int:id>", methods=["GET", "POST"])
 def update_services(id):
-    
-        
         from models import db
         from models import Services
-        ser=Services.query.filter_by(id=id).first()
+        ser=Services.query.get_or_404(id)
         servicesForm=ServicesForm()
         if request.method=="POST":
-            ser.ser_img=servicesForm.img.data,
-            ser.ser_namelink=servicesForm.name_link.data,
+            ser.ser_img=servicesForm.img.data
+            ser.ser_namelink=servicesForm.name_link.data
             ser.ser_about=servicesForm.about.data
+            db.session.add(ser)
             db.session.commit()
             return redirect('/admin/Services')
         return render_template('admin/Services_update.html',servicesForm=servicesForm,ser=ser)
