@@ -1,16 +1,5 @@
 {% extends 'admin/base.html' %}
 {%block content%}
-<form action="/admin/testimonials/update/{{test.id}}" method="POST">
-    <div class="mt-3">
-        <input type="text" class="form-control" placeholder="{{test.name}}" name="_name">
-    </div>
-    <div class="mt-3">
-        <input type="text" class="form-control" placeholder="{{test.work}}" name="_work">
-    </div>
-    <div class="mt-3">
-        <input type="text" class="form-control" placeholder="{{test.text}}" name="_text">
-    </div>
-    <button type="submit" class="btn btn-primary mt-3">Submit</button>
-</form>
+
 
 {%endblock%}

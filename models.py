@@ -9,6 +9,7 @@ migrate = Migrate(app, db)
 
 class Testimonials(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    img=db.Column(db.String(200))
     name = db.Column(db.String(50))
     work = db.Column(db.String(50))
     text = db.Column(db.String(100))

@@ -5,7 +5,9 @@ import os
 import datetime
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from run import login_manager
-from admin.forms import ServicesForm
+from admin.forms import ServicesForm,TestimonialForm
+from werkzeug.utils import secure_filename
+import random
 
 
 
@@ -29,7 +31,7 @@ def admin_login():
     if request.method == "POST":
         if login.admin_username == request.form["admin_username"] and login.admin_password == request.form["admin_password"]:
             login_user(login, remember=login.log_bool)
-            return redirect ("/admin/testimonials")
+            return redirect ("admin/Services")
 
         else:
             flash ("Username or password is wrong!")
@@ -51,34 +53,39 @@ def admin_logout():
 def Add_():
     from models import Testimonials
     test=Testimonials.query.all()
+    testimonialForm=TestimonialForm()
     if request.method=="POST":
-        name=request.form['_name']
-        work=request.form['_work']
-        text=request.form['_text']
-        test=Testimonials(name=name,work=work,text=text,test_date=datetime.datetime.now())
-        db.session.add(test)
-        db.session.commit()
-        return redirect("/admin/testimonials")
-    return render_template('admin/testimonials.html',test=test)
+            file=request.files['img']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[0]
+            new_filename=f"count{random.randint(1,500)}.{extension}"
+            file.save(os.path.join('static/assets/uploads',new_filename))
+            name=testimonialForm.name.data
+            text=testimonialForm.text.data
+            img=new_filename
+            work=testimonialForm.work.data
+            testimonial=Testimonials(name=name,img=img,text=text,work=work)
+            db.session.add(testimonial)
+            db.session.commit()
+            return redirect('/admin/testimonials')
+    return render_template('admin/testimonials.html',testimonialForm=testimonialForm,test=test)
 db.create_all()
 @app.route("/admin/testimonials/delete/<int:id>")
-def testimonials_delete(id):
-        from models import Testimonials,db
+def testimonial_delete(id):
+        from models import Testimonials
         test=Testimonials.query.filter_by(id=id).first()
         db.session.delete(test)
         db.session.commit()
-        return redirect('admin/testimonials')
+        return redirect('/admin/testimonials')
 
    
 @app.route("/admin/testimonials/update/<int:id>", methods=["GET", "POST"])
 def testimonials_update(id):
     from models import Testimonials,db        
-    test=Testimonials.query.filter_by(id=id).first()
+    test=Testimonials.query.all()
+    testimonialForm=TestimonialForm()
     if request.method=="POST":
-        test=Testimonials.query.filter_by(id=id).first()
-        test.name=request.form['_name']
-        test.work=request.form['_work']
-        test.text=request.form['_text']
+       
         db.session.commit()
         return redirect('admin/testimonials')
     return render_template('admin/testimonials_update.html',test=test)
@@ -133,9 +140,13 @@ def Add_services():
         from models import Services
         ser=Services.query.all()
         if request.method=="POST":
-
+            file=request.files['img']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[0]
+            new_filename=f"count{random.randint(1,500)}.{extension}"
+            file.save(os.path.join('static/assets/uploads',new_filename))
             services=Services(
-            ser_img=servicesForm.img.data,
+            ser_img=new_filename,
             ser_namelink=servicesForm.name_link.data,
             ser_about=servicesForm.about.data,
             )

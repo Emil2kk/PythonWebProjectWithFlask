@@ -226,19 +226,19 @@
                 </div>
 
                 <div class="row">
-                   {% for s in ser %}
-                   <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="icon-box">
-                        <div class="icon"><i class="bx bxl-dribbble"></i></div>
-                        <h4><a href="">{{s.ser_namelink}}</a></h4>
-                        <p>{{s.ser_about}}</p>
+                    {% for s in ser %}
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                            <h4><a href="">{{s.ser_namelink}}</a></h4>
+                            <p>{{s.ser_about}}</p>
+                        </div>
                     </div>
-                </div>
-                   {% endfor %}
+                    {% endfor %}
 
-                   
 
-                   
+
+
 
 
                 </div>
@@ -481,7 +481,7 @@
                         <div class="swiper-slide">
 
                             <div class="testimonial-item">
-                                <!-- <img src="static/assets/img/testimonials/{{test.img}}" class="testimonial-img" alt=""> -->
+                                <img src="static/assets/uploads/{{test.img}}" class="testimonial-img" alt="">
                                 <h3>{{test.name}}</h3>
                                 <h4>{{test.work}}</h4>
                                 <p>
