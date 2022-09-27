@@ -47,12 +47,19 @@ class Login(UserMixin ,db.Model):
     admin_password = db.Column(db.String(50))
     log_bool = db.Column(db.Boolean)
     
-class Portfolio(db.Model):
-    id =db.Column(db.Integer, primary_key=True, autoincrement=True)
-    port_img=db.Column(db.String(200))
-    port_name=db.Column(db.String(200))
-    port_mname=db.Column(db.String(200))
+class PortfolioCategory(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(80))
+    portfolios = db.relationship('Portfolio', backref='portfolio_category', lazy=True)
     
-# class Portfolio_details(db.Model):
+    
+class Portfolio(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(80))
+    category_id=db.Column(db.Integer,db.ForeignKey('portfolio_category.id'))
+    img=db.Column(db.String(80))
+    info=db.Column(db.String(200))
+    
+
      
     

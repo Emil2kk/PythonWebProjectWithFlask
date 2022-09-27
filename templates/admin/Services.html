@@ -1,11 +1,8 @@
-{% extends 'admin/base.html' %}
-{% block content %}
+{% extends 'admin/base.html' %} {% block content %}
 <form action="/admin/Services" method="POST" enctype="multipart/form-data">
-    {{servicesForm.img(class_="form-control my-3",placeholder='Service Img')}}
-    {{servicesForm.name_link(class_="form-control my-3",placeholder='Name_link')}}
-    {{servicesForm.about(class_="form-control my-3",placeholder='About')}}
-    {{servicesForm.submit(class_="btn btn-primary my-3",value="Add Service")}}
-    
+    {{servicesForm.img(class_="form-control my-3",placeholder='Service Img')}} {{servicesForm.name_link(class_="form-control my-3",placeholder='Name_link')}} {{servicesForm.about(class_="form-control my-3",placeholder='About')}} {{servicesForm.submit(class_="btn
+    btn-primary my-3",value="Add Service")}}
+
 </form>
 
 
@@ -34,7 +31,7 @@
 
         {% endfor %}
     </tbody>
-       
+
 </table>
 
-{% endblock  %}
+{% endblock %}

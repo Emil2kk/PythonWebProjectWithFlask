@@ -1,13 +1,14 @@
-from flask import Flask,redirect,url_for,render_template,request
+from flask import Flask,redirect,url_for,render_template,request,abort
 from run import app
 from models import db
 import os
 import datetime
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from run import login_manager
-from admin.forms import ServicesForm,TestimonialForm
+from admin.forms import ServicesForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm
 from werkzeug.utils import secure_filename
 import random
+
 
 
 
@@ -39,7 +40,6 @@ def admin_login():
 
     return render_template("admin/login.html", login = login)
 
-
 @app.route("/logout")
 @login_required
 def admin_logout():
@@ -68,6 +68,7 @@ def Add_():
             db.session.add(testimonial)
             db.session.commit()
             return redirect('/admin/testimonials')
+            
     return render_template('admin/testimonials.html',testimonialForm=testimonialForm,test=test)
 db.create_all()
 @app.route("/admin/testimonials/delete/<int:id>")
@@ -78,7 +79,7 @@ def testimonial_delete(id):
         db.session.commit()
         return redirect('/admin/testimonials')
 
-   
+
 @app.route("/admin/testimonials/update/<int:id>", methods=["GET", "POST"])
 def testimonials_update(id):
     from models import Testimonials,db        
@@ -90,46 +91,53 @@ def testimonials_update(id):
         return redirect('admin/testimonials')
     return render_template('admin/testimonials_update.html',test=test)
 
-@app.route("/admin/Portfolio",methods=['POST','GET'])
-@login_required
-def Portfolio_Add():
-    from models import Portfolio
-    import os
-    from werkzeug.utils import secure_filename
-    port=Portfolio.query.all()
+
+@app.route("/admin/Portfolio_category", methods=["GET", "POST"])
+def admin_portfolio_category():
+    
+    from models import PortfolioCategory,db
+    categories=PortfolioCategory.query.all()
+    categoryForm=PortfolioCategoryForm()
     if request.method=="POST":
-        file = request.files['port_img']
-        filename = secure_filename(file.filename)
-        file.save(os.path.join('static/assets/uploads', filename))
-        port_name=request.form['port_name']
-        port_mname=request.form['port_mname']
-        port=Portfolio(port_img=os.path.join('static/assets/uploads', filename),port_name=port_name,port_mname=port_mname)
-        db.session.add(port)
-        db.session.commit()
-        return redirect("/admin/Portfolio")
-    return render_template('admin/portfolio.html',port=port)
+            name=categoryForm.name.data
+            portfolio_category=PortfolioCategory(name=name)
+            db.session.add(portfolio_category)
+            db.session.commit()
+            return redirect('/admin/Portfolio_category')
+    return render_template('admin/portfolio_category.html',categoryForm=categoryForm,categories=categories)
+
+    
+@app.route("/admin/Portfolio", methods=["GET", "POST"])
+def admin_portfolio():
+    from models import Portfolio,PortfolioCategory,db
+    portfolios=Portfolio.query.all()
+    categories=PortfolioCategory.query.all()
+    portfolioForm=PortfolioForm()
+    if request.method=="POST":
+            file=request.files['img']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[0]
+            new_filename=f"Portfolio{random.randint(1,1000)}.{extension}"
+            file.save(os.path.join('static/assets/uploads',new_filename))
+            name=portfolioForm.name.data
+            info=portfolioForm.info.data
+            img=new_filename
+            category=request.form['category']
+            portfolio=Portfolio(name=name,info=info,img=img,category_id=category)
+            db.session.add(portfolio)
+            db.session.commit()
+            return redirect('/admin/Portfolio')
+    return render_template('admin/portfolio.html',portfolioForm=portfolioForm,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory)
 
 @app.route("/admin/Portfolio/delete/<int:id>")
-def portfolio_delete(id):
-        from models import Portfolio
-        port=Portfolio.query.filter_by(id=id).first()
-        db.session.delete(port)
-        db.session.commit()
-        return redirect('/Portfolio')
-
-   
-@app.route("/admin/Portfolio/update/<int:id>", methods=["GET", "POST"])
-def Portfolio_update(id):
-    from models import Portfolio,db        
-    port=Portfolio.query.filter_by(id=id).first()
-    if request.method=="POST":
-        port=Portfolio.query.filter_by(id=id).first()
-        port.port_name=request.form['port_name']
-        port.port_mname=request.form['port_mname']
+def admin_port_delete(id):
+    from models import Portfolio,db
     
-        db.session.commit()
-        return redirect('admin/Portfolio')
-    return render_template('admin/Portfolio_update.html',port=port)
+    categories=Portfolio.query.filter_by(id=id).first() 
+    db.session.delete(categories)
+    db.session.commit()
+    return redirect('/admin/Portfolio')
+
 
 
 
@@ -158,7 +166,7 @@ def Add_services():
 @app.route("/admin/Services/delete/<int:id>")
 def services_delete(id):
         from models import Services
-        ser=Services.query.filter_by(id=id).first()
+        ser=Services.query.filter_by(id=id).first() 
         db.session.delete(ser)
         db.session.commit()
         return redirect('/admin/Services')

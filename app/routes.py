@@ -5,9 +5,10 @@ from flask import Flask,redirect,url_for,render_template,request
 @app.route("/")
 def portfolio():
     from models import Testimonials
-    from models import Portfolio
+    from models import Portfolio,PortfolioCategory
     from models import Services
     test=Testimonials.query.all()
-    port=Portfolio.query.all()
+    portfolios=Portfolio.query.all()
+    categories=PortfolioCategory.query.all()
     ser=Services.query.all()
-    return render_template("app/index.html", test=test,port=port,ser=ser)
+    return render_template("app/index.html", test=test,ser=ser,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory)
