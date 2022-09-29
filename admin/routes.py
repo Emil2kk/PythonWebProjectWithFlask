@@ -5,7 +5,7 @@ import os
 import datetime
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from run import login_manager
-from admin.forms import ServicesForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm
+from admin.forms import ServicesForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm,NavlinkForm
 from werkzeug.utils import secure_filename
 import random
 
@@ -67,10 +67,9 @@ def Add_():
             testimonial=Testimonials(name=name,img=img,text=text,work=work)
             db.session.add(testimonial)
             db.session.commit()
-            return redirect('/admin/testimonials')
-            
+            return redirect('/admin/testimonials')      
     return render_template('admin/testimonials.html',testimonialForm=testimonialForm,test=test)
-db.create_all()
+
 @app.route("/admin/testimonials/delete/<int:id>")
 def testimonial_delete(id):
         from models import Testimonials
@@ -83,13 +82,17 @@ def testimonial_delete(id):
 @app.route("/admin/testimonials/update/<int:id>", methods=["GET", "POST"])
 def testimonials_update(id):
     from models import Testimonials,db        
-    test=Testimonials.query.all()
+    test=Testimonials.query.filter_by(id=id).first()
     testimonialForm=TestimonialForm()
     if request.method=="POST":
-       
+        test.name=testimonialForm.name.data
+        test.text=testimonialForm.text.data
+        test.img=testimonialForm.img.data
+        test.work=testimonialForm.work.data
+        db.session.add(test)
         db.session.commit()
-        return redirect('admin/testimonials')
-    return render_template('admin/testimonials_update.html',test=test)
+        return redirect("admin/testimonials")
+    return render_template('admin/testimonials_update.html',testimonialForm=testimonialForm,test=test)
 
 
 @app.route("/admin/Portfolio_category", methods=["GET", "POST"])
@@ -132,13 +135,26 @@ def admin_portfolio():
 @app.route("/admin/Portfolio/delete/<int:id>")
 def admin_port_delete(id):
     from models import Portfolio,db
-    
     categories=Portfolio.query.filter_by(id=id).first() 
     db.session.delete(categories)
     db.session.commit()
     return redirect('/admin/Portfolio')
 
-
+@app.route("/admin/Portfolio/edit/<int:id>" ,methods=["GET", "POST"])
+def admin_port_update(id):
+    from models import db,Portfolio,PortfolioCategory
+    portfolios=Portfolio.query.get_or_404(id)
+    categories=PortfolioCategory.query.get_or_404(id)
+    portfolioForm=PortfolioForm()
+    if request.method=="POST":
+        portfolios.category_id=request.form['category']
+        portfolios.name=portfolioForm.name.data
+        portfolios.info=portfolioForm.info.data
+        portfolios.img=portfolioForm.img.data
+        db.session.add(portfolios)
+        db.session.commit()
+        return redirect('/admin/Portfolio')
+    return render_template('admin/portfolio_update.html',portfolioForm=portfolioForm,portfolios=portfolios,categories=categories)
 
 
 @app.route("/admin/Services",methods=['POST','GET'])
@@ -185,3 +201,38 @@ def update_services(id):
             db.session.commit()
             return redirect('/admin/Services')
         return render_template('admin/Services_update.html',servicesForm=servicesForm,ser=ser)
+@app.route("/admin/Navlinks",methods=["GET","POST"])
+def add_nav():
+    from models import db,Navlinks
+    nav=Navlinks.query.all()
+    navlinkForm=NavlinkForm()
+    if request.method=="POST":
+        name=navlinkForm.name.data
+        url=navlinkForm.url.data
+        nav=Navlinks(name=name,url=url)
+        db.session.add(nav)
+        db.session.commit()
+        return redirect("/admin/Navlinks")
+    return render_template("admin/Navlinks.html",navlinkForm=navlinkForm,nav=nav)
+@app.route("/admin/Navlinks/delete/<int:id>")
+def navlinks_delete(id):
+        from models import Navlinks
+        nav=Navlinks.query.filter_by(id=id).first() 
+        db.session.delete(nav)
+        db.session.commit()
+        return redirect('/admin/Navlinks')
+    
+@app.route("/admin/Navlinks/update/<int:id>", methods=["GET", "POST"])
+def navlinks_update(id):
+    from models import db,Navlinks
+    nav=Navlinks.query.get_or_404(id)
+    navlinkForm=NavlinkForm()
+    if request.method=="POST":
+            nav.name=navlinkForm.name.data
+            nav.url=navlinkForm.url.data
+            db.session.add(nav)
+            db.session.commit()
+            return redirect('/admin/Navlinks')
+    return render_template('admin/Navlinks_update.html',navlinkForm=navlinkForm,nav=nav)
+
+db.create_all()

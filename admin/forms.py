@@ -23,3 +23,9 @@ class PortfolioForm(FlaskForm):
     img=FileField('Img')
     info=StringField('Info')
     submit=SubmitField('Add Portfolio')
+    
+class NavlinkForm(FlaskForm):
+    name=StringField("name")
+    url=StringField("url")
+    submit=SubmitField('Add Nav')
+    

@@ -36,10 +36,10 @@ class About(db.Model):
     about_work=db.Column(db.String(200))
     about_quickread=db.Column(db.String(200))
     
-class NavBar(db.Model):
+class Navlinks(db.Model):
     id =db.Column(db.Integer, primary_key=True, autoincrement=True)
-    navbar_item=db.Column(db.String(200))
-    navbar_item_link=db.Column(db.String(200))
+    name=db.Column(db.String(200))
+    url=db.Column(db.String(200))
 
 class Login(UserMixin ,db.Model):
     id=db.Column(db.Integer,primary_key=True)

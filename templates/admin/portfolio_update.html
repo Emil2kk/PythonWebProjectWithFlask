@@ -1,0 +1,18 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+
+<form action="/admin/Portfolio/edit/{{portfolios.id}}" method="POST" enctype="multipart/form-data">
+    <select name="category" class="form-control">
+        <option value="">Choose Category</option>
+        {% for category in categories %}
+        <option value="{{category.id}}">{{category.name}}</option>
+        {% endfor %}
+    </select>
+    {{portfolioForm.name(class_='form-control my-3',placeholder="Name")}}
+    {{portfolioForm.info(class_='form-control my-3',placeholder="Description")}}
+    {{portfolioForm.img(class_='form-control my-3',placeholder="Image")}}
+    {{portfolioForm.submit(class_='btn btn-primary',value="edit Portfolio Item")}}
+   
+    
+</form>
+{% endblock  %}

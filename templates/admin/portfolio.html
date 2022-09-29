@@ -39,7 +39,7 @@
                     {{PortfolioCategory.query.filter_by(id=portfolio.category_id).first().name}}
                 </td>
                 <td>
-                    <a href="/admin/portfolio/edit/{{portfolio.id}}" class="btn btn-primary">Edit</a>
+                    <a href="/admin/Portfolio/edit/{{portfolio.id}}" class="btn btn-primary">Edit</a>
                     <a href="/admin/Portfolio/delete/{{portfolio.id}}" class="btn btn-danger">Delete</a>
                 </td>
               </tr>

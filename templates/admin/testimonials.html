@@ -6,7 +6,7 @@
     {{testimonialForm.img(class_="form-control my-3", placeholder="Image")}}
     {{testimonialForm.submit(class_="btn btn-primary my-3",value="Add testimonial")}}
 
-
+</form>
 <table class="table table-active">
     <thead>
         <tr>
@@ -18,17 +18,17 @@
         </tr>
     </thead>
     <tbody>
-        {% for t in test %}
+        {% for test in test %}
 
 
         <tr>
-            <td>{{t.id}}</td>
-            <td>{{t.name}}</td>
-            <td>{{t.work}}</td>
-            <td>{{t.text}}</td>
+            <td>{{test.id}}</td>
+            <td>{{test.name}}</td>
+            <td>{{test.work}}</td>
+            <td>{{test.text}}</td>
             <td>
-                <a href="/admin/testimonials/delete/{{t.id}}">Delete</a>
-                <a href="/admin/testimonials/update/{{t.id}}">Update</a>
+                <a href="/admin/testimonials/delete/{{test.id}}">Delete</a>
+                <a href="/admin/testimonials/update/{{test.id}}">Update</a>
             </td>
         </tr>
 
