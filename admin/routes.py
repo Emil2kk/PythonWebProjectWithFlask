@@ -5,7 +5,7 @@ import os
 import datetime
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from run import login_manager
-from admin.forms import ServicesForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm,NavlinkForm
+from admin.forms import ServicesForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm,NavlinkForm,Portfolio_detailsForm
 from werkzeug.utils import secure_filename
 import random
 
@@ -91,7 +91,7 @@ def testimonials_update(id):
         test.work=testimonialForm.work.data
         db.session.add(test)
         db.session.commit()
-        return redirect("admin/testimonials")
+        return redirect("/admin/testimonials")
     return render_template('admin/testimonials_update.html',testimonialForm=testimonialForm,test=test)
 
 
@@ -234,5 +234,32 @@ def navlinks_update(id):
             db.session.commit()
             return redirect('/admin/Navlinks')
     return render_template('admin/Navlinks_update.html',navlinkForm=navlinkForm,nav=nav)
+
+@app.route("/admin/Portfolio_details", methods=["GET", "POST"])
+def admin_portfolio_details():
+    from models import Portfolio_details,db
+    portfolio_details=Portfolio_details.query.all()
+    portfolio_detailsForm=Portfolio_detailsForm()
+    if request.method=="POST":
+            file=request.files['img']
+            
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[0]
+            new_filename=f"Portfolio{random.randint(1,1000)}.{extension}"
+            file.save(os.path.join('static/assets/uploads',new_filename))
+            category=portfolio_detailsForm.category.data
+            client=portfolio_detailsForm.client.data
+            date=portfolio_detailsForm.date.data
+            url=portfolio_detailsForm.url.data
+            name=portfolio_detailsForm.name.data
+            detail=portfolio_detailsForm.detail.data
+            img=new_filename
+            
+            portfolio_details=Portfolio_details(category=category,client=client,date=date,name=name,url=url,img=img,detail=detail)
+            db.session.add(portfolio_details)
+            db.session.commit()
+            return redirect('/admin/Portfolio_details')
+    return render_template('admin/portfolio_details.html',portfolio_detailsForm=portfolio_detailsForm,portfolio_details=portfolio_details)
+
 
 db.create_all()

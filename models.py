@@ -60,6 +60,16 @@ class Portfolio(db.Model):
     img=db.Column(db.String(80))
     info=db.Column(db.String(200))
     
+    
+    
+class Portfolio_details(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    category=db.Column(db.String(80))
+    client=db.Column(db.String(200))
+    date=db.Column(db.String(100))
+    url=db.Column(db.String(200))
+    img=db.Column(db.String(80))
+    name=db.Column(db.String(80))
+    detail=db.Column(db.String(120))
 
-     
     

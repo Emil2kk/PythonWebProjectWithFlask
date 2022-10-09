@@ -1,0 +1,51 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<form action="/admin/Portfolio_details" method="POST" enctype="multipart/form-data">
+    {{portfolio_detailsForm.category(class_='form-control my-3',placeholder="Category")}}
+    {{portfolio_detailsForm.client(class_='form-control my-3',placeholder="client")}}
+    {{portfolio_detailsForm.date(class_='form-control my-3',placeholder="date")}}
+    {{portfolio_detailsForm.name(class_='form-control my-3',placeholder="name")}}
+    {{portfolio_detailsForm.url(class_='form-control my-3',placeholder="Url")}}
+    {{portfolio_detailsForm.img(class_='form-control my-3',placeholder="Image",multiple="true", autocomplete="off" )}}
+    {{portfolio_detailsForm.submit(class_='btn btn-primary',value="Add Portfolio_details Item")}}
+   
+    
+</form>
+<table class="table table-active">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Image</th>
+            <th scope="col">Category</th>
+            <th scope="col">client</th>
+            <th scope="col">Url</th>
+            <th scope="col">edit/delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+
+
+        {% for portfolio in portfolio_details %}
+             <tr>
+                <th scope="row">{{portfolio.id}}</th>
+                <td>{{portfolio.name}}</td>
+                <td>
+                    <img src="/static/assets/uploads/{{portfolio_details.img}}" class="img-thumbnail" style='width:100px; height:100px; object-fit:cover'alt="">
+                </td>
+                <td>{{portfolio.url}}</td>
+                <td>{{portfolio.date}}</td>
+                <td>{{portfolio.client}}</td>
+                <td>
+                    <a href="/admin/Portfolio_details/edit/{{portfolio.id}}" class="btn btn-primary">Edit</a>
+                    <a href="/admin/Portfolio_details/delete/{{portfolio.id}}" class="btn btn-danger">Delete</a>
+                </td>
+              </tr>
+             {% endfor %}
+
+        
+    </tbody>
+       
+</table>
+{% endblock content %}

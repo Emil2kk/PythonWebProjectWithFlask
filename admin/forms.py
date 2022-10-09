@@ -24,6 +24,16 @@ class PortfolioForm(FlaskForm):
     info=StringField('Info')
     submit=SubmitField('Add Portfolio')
     
+class Portfolio_detailsForm(FlaskForm):
+    category=StringField('category')
+    client=StringField('client')
+    img=FileField('Img')
+    date=StringField('Date')
+    url=StringField('url')
+    name=StringField('name')
+    detail=StringField('detail')
+    submit=SubmitField('Add details')
+    
 class NavlinkForm(FlaskForm):
     name=StringField("name")
     url=StringField("url")
