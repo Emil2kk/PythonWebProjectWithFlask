@@ -5,7 +5,7 @@ import os
 import datetime
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from run import login_manager
-from admin.forms import ServicesForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm,NavlinkForm,Portfolio_detailsForm
+from admin.forms import ServicesForm,CountForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm,NavlinkForm,Portfolio_detailsForm
 from werkzeug.utils import secure_filename
 import random
 
@@ -32,7 +32,7 @@ def admin_login():
     if request.method == "POST":
         if login.admin_username == request.form["admin_username"] and login.admin_password == request.form["admin_password"]:
             login_user(login, remember=login.log_bool)
-            return redirect ("admin/Services")
+            return redirect (url_for("Admin"))
 
         else:
             flash ("Username or password is wrong!")
@@ -46,7 +46,9 @@ def admin_logout():
     logout_user()
     return redirect ("/login")
 
-
+@app.route("/admin")
+def Admin():
+    return render_template("admin/base.html")
 
 @app.route("/admin/testimonials",methods=['POST','GET'])
 @login_required
@@ -262,4 +264,38 @@ def admin_portfolio_details():
     return render_template('admin/portfolio_details.html',portfolio_detailsForm=portfolio_detailsForm,portfolio_details=portfolio_details)
 
 
+@app.route("/admin/Count",methods=["GET","POST"])
+def add_count():
+    from models import db,Count
+    count=Count.query.all()
+    countForm=CountForm()
+    if request.method=="POST":
+        name=countForm.name.data
+        count=countForm.count.data
+        about=countForm.about.data
+        count=Count(name=name,count=count,about=about)
+        db.session.add(count)
+        db.session.commit()
+        return redirect("/admin/Count")
+    return render_template("admin/Count.html",countForm=countForm,count=count)
+@app.route("/admin/Count/delete/<int:id>")
+def count_delete(id):
+        from models import Count
+        count=Count.query.filter_by(id=id).first() 
+        db.session.delete(count)
+        db.session.commit()
+        return redirect('/admin/Count')
+    
+@app.route("/admin/Count/update/<int:id>", methods=["GET", "POST"])
+def count_update(id):
+    from models import db,Count
+    count=Count.query.get_or_404(id)
+    countForm=CountForm()
+    if request.method=="POST":
+            count.name=countForm.name.data
+            count.count=countForm.count.data
+            db.session.add(count)
+            db.session.commit()
+            return redirect('/admin/Count')
+    return render_template('admin/count_update.html',countForm=countForm,count=count)
 db.create_all()

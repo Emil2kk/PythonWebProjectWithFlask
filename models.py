@@ -59,7 +59,7 @@ class Portfolio(db.Model):
     category_id=db.Column(db.Integer,db.ForeignKey('portfolio_category.id'))
     img=db.Column(db.String(80))
     info=db.Column(db.String(200))
-    
+    portfo = db.relationship('Portfolio_details', backref='portfolio', lazy=True)
     
     
 class Portfolio_details(db.Model):
@@ -71,5 +71,11 @@ class Portfolio_details(db.Model):
     img=db.Column(db.String(80))
     name=db.Column(db.String(80))
     detail=db.Column(db.String(120))
+    portfolio_id=db.Column(db.Integer,db.ForeignKey('portfolio.id'))
 
     
+class Count(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    count=db.Column(db.String(20))
+    name=db.Column(db.String(200))
+    about=db.Column(db.String(200))

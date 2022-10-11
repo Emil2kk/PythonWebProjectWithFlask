@@ -39,3 +39,8 @@ class NavlinkForm(FlaskForm):
     url=StringField("url")
     submit=SubmitField('Add Nav')
     
+class CountForm(FlaskForm):
+    count=StringField("count")
+    name=StringField("name")
+    about=StringField("about")
+    submit=SubmitField('Add Count')

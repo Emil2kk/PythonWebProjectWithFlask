@@ -1,0 +1,9 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<form action="/admin/Count" method="POST" enctype="multipart/form-data">
+    {{countForm.name(class_="form-control my-3", placeholder="name")}}
+    {{countForm.count(class_="form-control my-3", placeholder="count")}}
+    {{countForm.about(class_="form-control my-3", placeholder="about")}}
+    {{countForm.submit(class_="btn btn-primary my-3",value="Add count")}}
+</form>
+{% endblock %}
