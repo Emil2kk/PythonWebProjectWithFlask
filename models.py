@@ -22,13 +22,7 @@ class Services(db.Model):
     ser_namelink = db.Column(db.String(200))
     ser_about=db.Column(db.String(200))
     
-class Team(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    member_img=db.Column(db.String(200))
-    member_social_link=db.Column(db.String(200))
-    member_social_icon=db.Column(db.String(200))
-    member_name= db.Column(db.String(200))
-    member_job= db.Column(db.String(250))
+
     
 class About(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -79,3 +73,10 @@ class Count(db.Model):
     count=db.Column(db.String(20))
     name=db.Column(db.String(200))
     about=db.Column(db.String(200))
+    
+    
+class Team(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    img=db.Column(db.String(80))
+    name=db.Column(db.String(80))
+    position=db.Column(db.String(80))

@@ -6,14 +6,15 @@ from flask import Flask,redirect,url_for,render_template,request
 def portfolio():
     from models import Testimonials
     from models import Portfolio,PortfolioCategory
-    from models import Services,Navlinks,Count
+    from models import Services,Navlinks,Count,Team
     test=Testimonials.query.all()
     portfolios=Portfolio.query.all()
     categories=PortfolioCategory.query.all()
+    team=Team.query.all()
     ser=Services.query.all()
     nav=Navlinks.query.all()
     count=Count.query.all()
-    return render_template("app/index.html", test=test,count=count,ser=ser,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,nav=nav)
+    return render_template("app/index.html", team=team,test=test,count=count,ser=ser,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,nav=nav)
 
 
 @app.route("/Portfolio_details/<int:id>",methods=["GET", "POST"])

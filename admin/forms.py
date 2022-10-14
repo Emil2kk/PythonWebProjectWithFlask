@@ -44,3 +44,9 @@ class CountForm(FlaskForm):
     name=StringField("name")
     about=StringField("about")
     submit=SubmitField('Add Count')
+    
+class TeamForm(FlaskForm):
+    img=FileField("img")
+    name=StringField("name")
+    position=StringField("Position")
+    submit=SubmitField("add Team")

@@ -1,11 +1,11 @@
-from flask import Flask,redirect,url_for,render_template,request,abort
+from flask import Flask,redirect,url_for,render_template,request,abort,flash
 from run import app
 from models import db
 import os
 import datetime
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from run import login_manager
-from admin.forms import ServicesForm,CountForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm,NavlinkForm,Portfolio_detailsForm
+from admin.forms import ServicesForm,CountForm,TeamForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm,NavlinkForm,Portfolio_detailsForm
 from werkzeug.utils import secure_filename
 import random
 
@@ -17,7 +17,7 @@ def load_user(user_id):
     from models import Login
     return Login.query.get(int(user_id))
 
-@app.route("/login",methods=["GET","POST"])
+@app.route("/admin/login",methods=["GET","POST"])
 def admin_login():
     from models import Login,db
   
@@ -44,7 +44,7 @@ def admin_login():
 @login_required
 def admin_logout():
     logout_user()
-    return redirect ("/login")
+    return redirect ("/admin/login")
 
 @app.route("/admin")
 def Admin():
@@ -244,7 +244,6 @@ def admin_portfolio_details():
     portfolio_detailsForm=Portfolio_detailsForm()
     if request.method=="POST":
             file=request.files['img']
-            
             filename=secure_filename(file.filename)
             extension=filename.rsplit('.',1)[0]
             new_filename=f"Portfolio{random.randint(1,1000)}.{extension}"
@@ -298,4 +297,44 @@ def count_update(id):
             db.session.commit()
             return redirect('/admin/Count')
     return render_template('admin/count_update.html',countForm=countForm,count=count)
+
+@app.route("/admin/Team",methods=["GET","POST"])
+def add_team():
+    from models import Team
+    team=Team.query.all()
+    teamForm=TeamForm()
+    if request.method=="POST":
+        file=request.files['img']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[0]
+        new_filename=f"Team{random.randint(1,500)}.{extension}"
+        file.save(os.path.join('static/assets/uploads',new_filename))
+        name=teamForm.name.data
+        position=teamForm.position.data
+        img=new_filename
+        team=Team(name=name,img=img,position=position)
+        db.session.add(team)
+        db.session.commit()
+        return redirect("/admin/Team")
+    return render_template("admin/team.html",teamForm=teamForm,team=team)
+@app.route("/admin/Team/delete/<int:id>")
+def delete_team(id):
+    from models import Team
+    team=Team.query.filter_by(id=id).first() 
+    db.session.delete(team)
+    db.session.commit()
+    return redirect('/admin/Team')
+@app.route("/admin/Team/update/<int:id>")
+def update_team(id):
+    from models import Team
+    team=Team.query.get_or_404(id)
+    teamForm=TeamForm()
+    if request.method=="POST":
+            team.img=teamForm.img.data
+            team.name=teamForm.name.data
+            team.position=teamForm.position.data
+            db.session.add(team)
+            db.session.commit()
+            return redirect('/admin/Team')
+    return render_template('admin/team_update.html',teamForm=teamForm,team=team)
 db.create_all()

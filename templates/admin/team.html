@@ -1,0 +1,39 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<form action="/admin/Team" method="POST" enctype="multipart/form-data">
+    {{teamForm.img(class_="form-control my-3", placeholder="img")}}
+    {{teamForm.name(class_="form-control my-3", placeholder="name")}}
+    {{teamForm.position(class_="form-control my-3", placeholder="position")}}
+    {{teamForm.submit(class_="btn btn-primary my-3",value="Add team")}}
+</form>
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Img</th>
+                <th scope="col">Name</th>
+                <th scope="col">position</th>
+                <th scope="col">Delete/Edit</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in team %}
+    
+    
+            <tr>
+                <td>{{n.id}}</td>
+                <td>{{n.img}}</td>
+                <td>{{n.name}}</td>
+                <td>{{n.about}}</td>
+                <td>
+                    <a href="/admin/Team/delete/{{n.id}}">Delete</a>
+                    <a href="/admin/Team/update/{{n.id}}">Update</a>
+                </td>
+            </tr>
+    
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock  %}
