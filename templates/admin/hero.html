@@ -1,0 +1,35 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<form action="/admin/Hero" method="POST" enctype="multipart/form-data">
+    {{heroForm.name(class_="form-control my-3", placeholder="Name")}}
+    {{heroForm.link(class_="form-control my-3", placeholder="link")}}
+    {{heroForm.icon(class_="form-control my-3", placeholder="icon")}}
+    {{heroForm.submit(class_="btn btn-primary my-3",value="Add hero")}}
+</form>
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Url</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in hero %}
+    
+    
+            <tr>
+                <td>{{n.id}}</td>
+                <td>{{n.name}}</td>
+                <td>{{n.url}}</td>
+                <td>
+                    <a href="/admin/Hero/delete/{{n.id}}">Delete</a>
+                    <a href="/admin/Hero/update/{{n.id}}">Update</a>
+                </td>
+            </tr>
+    
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock  %}

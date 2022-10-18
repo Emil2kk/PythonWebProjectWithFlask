@@ -1,0 +1,32 @@
+{% extends 'admin/base.html' %} {% block content %}
+<form action="/admin/Clients" method="POST" enctype="multipart/form-data">
+
+    {{clientForm.img(class_="form-control my-3", placeholder="Image")}}
+    {{clientForm.submit(class_="btn btn-primary my-3",value="Add Client")}}
+
+</form>
+<table class="table table-active">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Img</th>
+     
+        </tr>
+    </thead>
+    <tbody>
+        {% for test in clients %}
+
+
+        <tr>
+            <td>{{test.id}}</td>
+            <td>{{test.img}}</td>
+            <td>
+                <a href="/admin/Clients/delete/{{test.id}}">Delete</a>
+                <a href="/admin/Clients/update/{{test.id}}">Update</a>
+            </td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

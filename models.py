@@ -80,3 +80,14 @@ class Team(db.Model):
     img=db.Column(db.String(80))
     name=db.Column(db.String(80))
     position=db.Column(db.String(80))
+    
+class Hero(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(80))
+    link=db.Column(db.String(80))
+    icon=db.Column(db.String(80))
+    
+    
+class Clients(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    img=db.Column(db.String(80))

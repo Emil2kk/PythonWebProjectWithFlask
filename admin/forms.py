@@ -50,3 +50,15 @@ class TeamForm(FlaskForm):
     name=StringField("name")
     position=StringField("Position")
     submit=SubmitField("add Team")
+    
+    
+class HeroForm(FlaskForm):
+    name=StringField("name")
+    link=StringField("Link")
+    icon=StringField("Icon name")
+    submit=SubmitField("add Hero")
+    
+class ClientForm(FlaskForm):
+     img=FileField("img")
+     submit=SubmitField("add Client")
+     

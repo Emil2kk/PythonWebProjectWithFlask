@@ -76,36 +76,16 @@
             </div>
 
             <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
+
+                {%for h in hero %}
+
                 <div class="col-xl-2 col-md-4">
                     <div class="icon-box">
-                        <i class="ri-store-line"></i>
-                        <h3><a href="">Lorem Ipsum</a></h3>
+                        <i class="{{h.icon}}"></i>
+                        <h3><a href="{{h.link}}">{{h.name}}</a></h3>
                     </div>
                 </div>
-                <div class="col-xl-2 col-md-4">
-                    <div class="icon-box">
-                        <i class="ri-bar-chart-box-line"></i>
-                        <h3><a href="">Dolor Sitema</a></h3>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-md-4">
-                    <div class="icon-box">
-                        <i class="ri-calendar-todo-line"></i>
-                        <h3><a href="">Sedare Perspiciatis</a></h3>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-md-4">
-                    <div class="icon-box">
-                        <i class="ri-paint-brush-line"></i>
-                        <h3><a href="">Magni Dolores</a></h3>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-md-4">
-                    <div class="icon-box">
-                        <i class="ri-database-2-line"></i>
-                        <h3><a href="">Nemos Enimade</a></h3>
-                    </div>
-                </div>
+                {%endfor%}
             </div>
 
         </div>
@@ -148,14 +128,12 @@
 
                 <div class="clients-slider swiper">
                     <div class="swiper-wrapper align-items-center">
-                        <div class="swiper-slide"><img src="./static/assets/img/clients/client-1.png" class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="./static/assets/img/clients/client-2.png" class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="./static/assets/img/clients/client-3.png" class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="./static/assets/img/clients/client-4.png" class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="./static/assets/img/clients/client-5.png" class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="./static/assets/img/clients/client-6.png" class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="./static/assets/img/clients/client-7.png" class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="./static/assets/img/clients/client-8.png" class="img-fluid" alt=""></div>
+
+                        {%for h in clients %}
+
+                        <div class="swiper-slide"><img src="./static/assets/img/clients/{{h.img}}" class="img-fluid" alt=""></div>
+                        {%endfor%}
+
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
@@ -271,12 +249,12 @@
                 {% for portfolio in portfolios %}
                 <div class="col-lg-4 col-md-6 ">
                     <div class="portfolio-wrap">
-                        <img src="/static/uploads/{{portfolio.img}}" class="img-fluid" alt="">
+                        <img src="./static/assets/uploads/{{portfolio.img}}" class="img-fluid" alt="">
                         <div class="portfolio-info">
                             <h4>{{portfolio.name}}</h4>
                             <p>{{portfolio.info}}</p>
                             <div class="portfolio-links">
-                                <a href="/static/uploads/{{portfolio.img}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+                                <a href="./static/assets/uploads/{{portfolio.img}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
                                 <a href="/Portfolio_details/{{portfolio.id}}" title="More Details"><i class="bx bx-link"></i></a>
                             </div>
                         </div>

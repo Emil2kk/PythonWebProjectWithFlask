@@ -5,7 +5,7 @@ import os
 import datetime
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from run import login_manager
-from admin.forms import ServicesForm,CountForm,TeamForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm,NavlinkForm,Portfolio_detailsForm
+from admin.forms import ServicesForm,ClientForm,HeroForm,CountForm,TeamForm,TestimonialForm,PortfolioCategoryForm,PortfolioForm,NavlinkForm,Portfolio_detailsForm
 from werkzeug.utils import secure_filename
 import random
 
@@ -98,6 +98,7 @@ def testimonials_update(id):
 
 
 @app.route("/admin/Portfolio_category", methods=["GET", "POST"])
+@login_required
 def admin_portfolio_category():
     
     from models import PortfolioCategory,db
@@ -324,10 +325,10 @@ def delete_team(id):
     db.session.delete(team)
     db.session.commit()
     return redirect('/admin/Team')
-@app.route("/admin/Team/update/<int:id>")
+@app.route("/admin/Team/update/<int:id>", methods=["GET", "POST"])
 def update_team(id):
     from models import Team
-    team=Team.query.get_or_404(id)
+    team=Team.query.filter_by(id=id).first() 
     teamForm=TeamForm()
     if request.method=="POST":
             team.img=teamForm.img.data
@@ -337,4 +338,75 @@ def update_team(id):
             db.session.commit()
             return redirect('/admin/Team')
     return render_template('admin/team_update.html',teamForm=teamForm,team=team)
+
+
+@app.route("/admin/Hero",methods=["GET","POST"])
+def add_hero():
+    from models import Hero
+    hero=Hero.query.all()
+    heroForm=HeroForm()
+    if request.method=="POST":
+            name=heroForm.name.data
+            link=heroForm.link.data
+            icon=heroForm.icon.data
+            hero=Hero(name=name,link=link,icon=icon)
+            db.session.add(hero)
+            db.session.commit()
+            return redirect('/admin/Hero')
+    return render_template('admin/hero.html',heroForm=heroForm,hero=hero)
+@app.route("/admin/Hero/delete/<int:id>")
+def delete_hero(id):
+    from models import Hero
+    hero=Hero.query.filter_by(id=id).first() 
+    db.session.delete(hero)
+    db.session.commit()
+    return redirect('/admin/Hero')
+@app.route("/admin/Hero/update/<int:id>", methods=["GET", "POST"])
+def update_hero(id):
+    from models import Hero
+    hero=Hero.query.filter_by(id=id).first() 
+    heroForm=HeroForm()
+    if request.method=="POST":
+            hero.name=heroForm.name.data
+            hero.link=heroForm.link.data
+            hero.icon=heroForm.icon.data
+            db.session.add(hero)
+            db.session.commit()
+            return redirect('/admin/Hero')
+    return render_template('admin/hero_update.html',heroForm=heroForm,hero=hero)
+@app.route("/admin/Clients",methods=["GET","POST"])
+def add_client():
+    from models import Clients
+    clients=Clients.query.all()
+    clientForm=ClientForm()
+    if request.method=="POST":
+            file=request.files['img']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[0]
+            new_filename=f"count{random.randint(1,500)}.{extension}"
+            file.save(os.path.join('static/assets/uploads',new_filename))
+            img=new_filename
+            clients=Clients(img=img)
+            db.session.add(clients)
+            db.session.commit()
+            return redirect('/admin/Clients')
+    return render_template('admin/client.html',clientForm=clientForm,clients=clients)
+@app.route("/admin/Clients/delete/<int:id>")
+def delete_clients(id):
+    from models import Clients
+    clients=Clients.query.filter_by(id=id).first() 
+    db.session.delete(clients)
+    db.session.commit()
+    return redirect('/admin/Clients')
+@app.route("/admin/Clients/update/<int:id>", methods=["GET", "POST"])
+def update_clients(id):
+    from models import Clients
+    clients=Clients.query.filter_by(id=id).first() 
+    clientForm=ClientForm()
+    if request.method=="POST":
+            clients.img=clientForm.img.data
+            db.session.add(clients)
+            db.session.commit()
+            return redirect('/admin/Clients')
+    return render_template('admin/client_update.html',clientForm=clientForm,clients=clients)
 db.create_all()

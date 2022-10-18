@@ -1,0 +1,9 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<form action="/admin/Hero/update/{{hero.id}}" method="POST" enctype="multipart/form-data">
+    {{heroForm.name(class_="form-control my-3", placeholder="Name")}}
+    {{heroForm.link(class_="form-control my-3", placeholder="link")}}
+    {{heroForm.icon(class_="form-control my-3", placeholder="icon")}}
+    {{heroForm.submit(class_="btn btn-primary my-3",value="Add hero")}}
+</form>
+{% endblock  %}
