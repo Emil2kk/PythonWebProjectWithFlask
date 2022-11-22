@@ -154,21 +154,15 @@
                             <h4>Est labore ad</h4>
                             <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
                         </div>
-                        <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
-                            <i class="bx bx-cube-alt"></i>
-                            <h4>Harum esse qui</h4>
-                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+                        {% for s in features %}
+                        <div class="icon-box mt-5 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
+                            <i class="bx bx-{{features.icon}}"></i>
+                            <h4>{{features.name}}</h4>
+                            <p>{{features.features}}</p>
                         </div>
-                        <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
-                            <i class="bx bx-images"></i>
-                            <h4>Aut occaecati</h4>
-                            <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
-                        </div>
-                        <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
-                            <i class="bx bx-shield"></i>
-                            <h4>Beatae veritatis</h4>
-                            <p>Expedita veritatis consequuntur nihil tempore laudantium vitae denat pacta</p>
-                        </div>
+                        {% endfor %}
+
+
                     </div>
                 </div>
 
@@ -427,27 +421,19 @@
 
                     <div class="col-lg-8 mt-5 mt-lg-0">
 
-                        <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                        <form action="admin/contact" method="post" role="form" class="php-email-form">
                             <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-                                </div>
-                                <div class="col-md-6 form-group mt-3 mt-md-0">
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-                                </div>
+                                {{contactForm.name(class_="col-md-6 form-group", placeholder="name")}} {{contactForm.email(class_="col-md-6 form-group", placeholder="email")}}
                             </div>
-                            <div class="form-group mt-3">
-                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-                            </div>
-                            <div class="form-group mt-3">
-                                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-                            </div>
+
+                            {{contactForm.subject(class_="form-group mt-3", placeholder="subject")}} {{contactForm.message(class_="form-group mt-3", placeholder="message")}}
                             <div class="my-3">
                                 <div class="loading">Loading</div>
                                 <div class="error-message"></div>
                                 <div class="sent-message">Your message has been sent. Thank you!</div>
                             </div>
                             <div class="text-center"><button type="submit">Send Message</button></div>
+                            {{contactForm.submit(class_="text-center",value="Add")}}
                         </form>
 
                     </div>

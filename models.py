@@ -91,3 +91,16 @@ class Hero(db.Model):
 class Clients(db.Model):
     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     img=db.Column(db.String(80))
+    
+class Features(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(80))
+    features=db.Column(db.String(100))
+    icon=db.Column(db.String(50))
+    
+class Contact(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(80))
+    subject=db.Column(db.String(100))
+    email=db.Column(db.String(100))
+    message=db.Column(db.String(100))

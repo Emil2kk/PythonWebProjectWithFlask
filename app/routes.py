@@ -3,10 +3,10 @@ from flask import Flask,redirect,url_for,render_template,request
 
 
 @app.route("/")
-def portfolio():
+def index():
     from models import Testimonials
     from models import Portfolio,PortfolioCategory
-    from models import Services,Navlinks,Count,Team,Hero,Clients
+    from models import Services,Navlinks,Count,Team,Hero,Clients,Features,Contact
     test=Testimonials.query.all()
     portfolios=Portfolio.query.all()
     categories=PortfolioCategory.query.all()
@@ -16,7 +16,10 @@ def portfolio():
     count=Count.query.all()
     hero=Hero.query.all()
     clients=Clients.query.all()
-    return render_template("app/index.html", clients=clients,hero=hero,team=team,test=test,count=count,ser=ser,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,nav=nav)
+    features=Features.query.all()
+    messages=Contact.query.all()
+    
+    return render_template("app/index.html",messages=messages,features=features,clients=clients,hero=hero,team=team,test=test,count=count,ser=ser,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,nav=nav)
 
 
 @app.route("/Portfolio_details/<int:id>",methods=["GET", "POST"])

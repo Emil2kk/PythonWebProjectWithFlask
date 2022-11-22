@@ -1,0 +1,27 @@
+
+{% extends "admin/base.html" %} {% block content %}
+<table class="table table-active">
+    <thead>
+        <tr>
+            <th scope="col"> Name</th>
+            <th scope="col">Message</th>
+            <th scope="col">Mail Adress</th>
+            <th scope="col">subject</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for mail in mail %}
+
+
+        <tr>
+            <td>{{}}</td>
+            <td>{{}}</td>
+            <td>{{}}</td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

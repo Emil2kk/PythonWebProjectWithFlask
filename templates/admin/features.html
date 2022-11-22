@@ -1,0 +1,39 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<form action="/admin/Features" method="POST" enctype="multipart/form-data">
+    {{featuresForm.name(class_="form-control my-3", placeholder="name")}}
+    {{featuresForm.icon(class_="form-control my-3", placeholder="icon")}}
+    {{featuresForm.features(class_="form-control my-3", placeholder="features")}}
+    {{featuresForm.submit(class_="btn btn-primary my-3",value="Add features")}}
+</form>
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">count</th>
+                <th scope="col">about</th>
+                <th scope="col">Delete/Edit</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in features %}
+    
+    
+            <tr>
+                <td>{{n.id}}</td>
+                <td>{{n.name}}</td>
+                <td>{{n.icon}}</td>
+                <td>{{n.features}}</td>
+                <td>
+                    <a href="/admin/Features/delete/{{n.id}}">Delete</a>
+                    <a href="/admin/Features/update/{{n.id}}">Update</a>
+                </td>
+            </tr>
+    
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock  %}

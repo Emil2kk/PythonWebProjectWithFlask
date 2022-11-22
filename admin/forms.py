@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField , TextAreaField,PasswordField,SubmitField,FileField,IntegerField
+from wtforms import StringField , TextAreaField,PasswordField,SubmitField,FileField,IntegerField,EmailField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 class ServicesForm(FlaskForm):
     img=FileField("Img")
@@ -62,3 +62,15 @@ class ClientForm(FlaskForm):
      img=FileField("img")
      submit=SubmitField("add Client")
      
+class FeaturesForm(FlaskForm):
+    name=StringField("name")
+    features=StringField("features")
+    icon=StringField("Icon")
+    submit=SubmitField("add Features")
+    
+class ContactForm(FlaskForm):
+    name=StringField("name")
+    email=EmailField("email")
+    subject=StringField("subject")
+    message=StringField("message")
+    submit=SubmitField("add ")  
